@@ -4,11 +4,16 @@ const supabase = require("../config/db");
 exports.addStudent = async (req, res) => {
   const { name, email, age, course } = req.body;
 
+  console.log("Incoming data:", req.body); // 🔥 ADD THIS
+
   const { data, error } = await supabase
     .from("students")
     .insert([{ name, email, age, course }]);
 
-  if (error) return res.status(500).json(error);
+  if (error) {
+    console.error("🔥 SUPABASE ERROR:", error); // 🔥 VERY IMPORTANT
+    return res.status(500).json(error);
+  }
 
   res.json(data);
 };
